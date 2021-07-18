@@ -1,12 +1,18 @@
 import React from "react";
 
-const DeafaultLayout = (props) => {
-  
-    return <>
-    {props.children}
-    </>;
+//Navbar
 
+import Navbar from "../Components/Navbar/Navbar.components";
+
+const DefaultLayout = (props) => {
+  
+    return ( 
+    <>
+    <Navbar />
+    {props.children}
+    </>
+    );
 
 };
 
-export default DeafaultLayout;
+export default DefaultLayout;
