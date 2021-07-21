@@ -1,8 +1,14 @@
 import React from "react";
 
+import Slider from "react-slick";
+
 import EntertainmentCardSlider from "../Components/Entertainment/Entertainmentcard.component";
 
-import Premier from "../Components/Premier/Premier.component";
+//config
+import TempPosters from "../config/TempPosters.config";
+
+//Slider
+import PosterSlider from "../Components/PosterSlider/PosterSlider.component";
 
 const HomePage = () => {
     return (
@@ -21,7 +27,9 @@ const HomePage = () => {
                             <img src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/premiere-rupay-banner-web-collection-202104230555.png" alt="Premier"
                                 className="w-full h-full" />
                         </div>
-                        <Premier />
+                        <PosterSlider images={TempPosters} title="Premieres"
+                            subtitle="Brand new relases every friday"
+                            isDark />
                     </div>
                 </div>
             </div>
