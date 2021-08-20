@@ -5,7 +5,8 @@ const Poster = (props) => {
         <>
           <div className="flex flex-col gap-2 px-2 lg:px-3">
             <div className="h-44 md:h-80">
-                <img src={props.src} alt={props.title}
+                <img src={`https://image.tmdb.org/t/p/original${props.poster_path}`}
+                alt={props.original_title}
                  className="w-full h-full rounded-md md:rounded-xl" />
             </div>
             <h3 
@@ -13,7 +14,7 @@ const Poster = (props) => {
                 props.isDark? "text-white" : "text-gray-700"
             }`}
             >
-              {props.title}
+              {props.original_title}
             </h3>
             <p className={`text-sm ${props.isDark? "text-white" : "text-gray-700"}`}
             >
