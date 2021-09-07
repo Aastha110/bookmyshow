@@ -1,17 +1,56 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FaCcVisa, FaCcApplePay } from "react-icons/fa";
+import axios from 'axios';
+import { useParams } from 'react-router';
 
 //component
 import MovieHero from '../Components/MovieHero/MovieHero.component';
 import Cast from '../Components/Cast/Cast.component';
+import Slider from 'react-slick';
 
 //config
-import TempPosters from "../config/TempPosters.config";
+
+//context
+import { MovieContext  } from '../Context/Movie.context';
 
 //Slider
 import PosterSlider from "../Components/PosterSlider/PosterSlider.component";
 
+
 export const Movie = () => {
+    const { id } = useParams();
+    const { movie } = useContext(MovieContext);
+    const [cast, setCast] = useState([]);
+    const [similarMovies, setSimilarMovies] = useState([]);
+    const [recommended, setRecommended] = useState([]);
+
+    useEffect(() => {
+        const requestsimilarMovies = async () => {
+            const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+            setSimilarMovies(getSimilarMovies.data.results);
+        };
+
+        requestsimilarMovies();
+    }, [id]);
+
+     useEffect(() => {
+        const requestRecommended = async () => {
+            const getRecommended = await axios.get(`/movie/${id}/recommendations`);
+            setRecommended(getRecommended.data.results);
+        };
+
+        requestRecommended();
+    }, [id]);
+
+     useEffect(() => {
+        const requestCast = async () => {
+            const getCast = await axios.get(`movie/${id}/credits`);
+            setCast(getCast.data.cast);
+        };
+
+        requestCast();
+    },
+     []);
 
     const settings = {
         infinite: false,
@@ -46,6 +85,39 @@ export const Movie = () => {
         ],
     };
 
+    const settingsCast = {
+        infinite: false,
+        speed: 500,
+        slidesToShow: 6,
+        slidesToScroll: 4,
+        initialSlide: 0,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 6,
+                    slidesToScroll: 3,
+                    infinite: true,
+                },
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 2,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2,
+                },
+            },
+        ],
+    };
+
     return (
         <>
             <MovieHero />
@@ -54,7 +126,7 @@ export const Movie = () => {
                     <h2 className="text-gray-800 font-bold text-2xl">
                         About the movie</h2>
                     <p>
-                        Bruce Wayne and Diana Prince try to bring the metahumans of Earth together after the death of Clark Kent. Meanwhile, Darkseid sends Steppenwolf to Earth with an army to subjugate humans.
+                       {movie.overview}
                     </p>
                 </div>
                 <div className="my-8">
@@ -102,16 +174,13 @@ export const Movie = () => {
 
                 <div className="my-8">
                     <h2 className="text-gray-800 font-bold text-2xl mb-4">Cast & Crew</h2>
-                    <div className="flex flex-wrap gap-4">
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/henry-cavill-23964-04-05-2020-04-25-14.jpg"
-                            castName="Henry Cavil" role="Superman" />
-
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/gal-gadot-11088-17-10-2017-11-45-36.jpg"
-                            castName="Gal Gadot" role="Wonder Woman" />
-
-                        <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/ray-fisher-1072729-17-10-2017-12-14-18.jpg"
-                            castName="Ray Fisher" role="Victor Stone" />
-                    </div>
+                        <Slider {...settingsCast}>
+                      {cast.map((castdata) => (
+                         <Cast image={`https://image.tmdb.org/t/p/original/${castdata.profile_path}`}
+                         castName={castdata.original_name} 
+                         role={castdata.character} />
+                      ))} 
+                      </Slider>
                 </div>
 
                 <div className="my-8">
@@ -122,7 +191,7 @@ export const Movie = () => {
                     <div className="container mx-auto px-4 my-8">
                         <PosterSlider
                             config={settings}
-                            images={TempPosters} title="You might also like"
+                            images={similarMovies} title="You might also like"
                             isDark={false} />
                     </div>
                 </div>
@@ -135,7 +204,7 @@ export const Movie = () => {
                     <div className="container mx-auto px-4 my-8">
                         <PosterSlider
                             config={settings}
-                            images={TempPosters} title="BMS XCLUSIV"
+                            images={recommended} title="BMS XCLUSIV"
                             isDark={false} />
                     </div>
                 </div>

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import MovieInfo from './MovieInfo.component';
 
+//Context
+import { MovieContext } from '../../Context/Movie.context';
+
 const MovieHero = () => {
+const { movie } = useContext(MovieContext);
+
   return (
     <>
       <div>
@@ -13,7 +18,7 @@ const MovieHero = () => {
           </div>
 
           <div className="absolute w-full h-56 bg-black z-10 bg-opacity-50 bottom-0" />
-          <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/zack-snyder-s-justice-league-et00047164-10-04-2021-03-22-49.jpg" alt="poster"
+          <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="poster"
             className="w-full h-full"
           />
         </div>
@@ -26,7 +31,7 @@ const MovieHero = () => {
           </div>
           <div className="absolute w-full h-56 bg-black z-10 bg-opacity-50 bottom-0" />
 
-          <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/zack-snyder-s-justice-league-et00047164-10-04-2021-03-22-49.jpg" alt="poster"
+          <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="poster"
             className="w-full h-full"
           />
         </div>
@@ -39,7 +44,7 @@ const MovieHero = () => {
 
           <div className="z-30 absolute left-24 top-16 flex items-center gap-10">
             <div className="h-96 w-64 ">
-              <img src="https://in.bmscdn.com/iedb/movies/images/extra/vertical_logo/mobile/thumbnail/xxlarge/zack-snyder-s-justice-league-et00047164-10-04-2021-03-22-49.jpg"
+              <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                 alt="poster" className="w-full h-full rounded-xl"
               />
             </div>
@@ -49,7 +54,7 @@ const MovieHero = () => {
           </div>
 
 
-          <img src="https://in.bmscdn.com/iedb/movies/images/extra/horizontal_no_logo/mobile/listing/xxlarge/zack-snyder-s-justice-league-et00047164-10-04-2021-03-22-49.jpg"
+          <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
             alt="poster" className="w-full h-full" />
         </div>
       </div>
